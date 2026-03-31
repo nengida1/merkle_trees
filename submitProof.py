@@ -174,7 +174,11 @@ def send_signed_msg(proof, random_leaf):
 
     # TODO YOUR CODE HERE
     tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
-    return tx_hash
+    receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+
+    if receipt.status != 1:
+        raise Exception("Transaction failed")
+    return tx_hash.hex()
 
 
 # Helper functions that do not need to be modified
